@@ -1,5 +1,9 @@
 com/gokugame/gokugame/GokuGame$1.class
-module-info.class
+com/gokugame/gokugame/Obstacle.class
+com/gokugame/gokugame/GameLogic.class
 com/gokugame/gokugame/GokuGame$2.class
 com/gokugame/gokugame/GokuGame.class
-com/gokugame/gokugame/GokuController.class
+com/gokugame/gokugame/PowerUp.class
+com/gokugame/gokugame/GameView.class
+module-info.class
+com/gokugame/gokugame/GameObject.class

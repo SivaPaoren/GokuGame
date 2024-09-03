@@ -1,3 +1,7 @@
-/Users/sivapaoren/Desktop/GokuGame/src/main/java/com/gokugame/gokugame/GokuController.java
-/Users/sivapaoren/Desktop/GokuGame/src/main/java/com/gokugame/gokugame/GokuGame.java
-/Users/sivapaoren/Desktop/GokuGame/src/main/java/module-info.java
+/Users/sivapaoren/Documents/GitHub/GokuGame/src/main/java/com/gokugame/gokugame/GameLogic.java
+/Users/sivapaoren/Documents/GitHub/GokuGame/src/main/java/com/gokugame/gokugame/GameObject.java
+/Users/sivapaoren/Documents/GitHub/GokuGame/src/main/java/com/gokugame/gokugame/GameView.java
+/Users/sivapaoren/Documents/GitHub/GokuGame/src/main/java/com/gokugame/gokugame/GokuGame.java
+/Users/sivapaoren/Documents/GitHub/GokuGame/src/main/java/com/gokugame/gokugame/Obstacle.java
+/Users/sivapaoren/Documents/GitHub/GokuGame/src/main/java/com/gokugame/gokugame/PowerUp.java
+/Users/sivapaoren/Documents/GitHub/GokuGame/src/main/java/module-info.java
