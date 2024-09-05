@@ -2,31 +2,39 @@ package com.gokugame.gokugame;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.media.AudioClip;
+
+
 
 public class GokuGame extends Application {
 
     private GameLogic logic = new GameLogic();
     private GameView view = new GameView();
-    private AudioClip jumpSound = new AudioClip("file:src/main/resources/jump.mp3");
-    private AudioClip backgroundMusic = new AudioClip("file:src/main/resources/background.mp3");
+    private final AudioClip jumpSound = new AudioClip("file:src/main/resources/jump.mp3");
+    private final AudioClip backgroundMusic = new AudioClip("file:src/main/resources/background.mp3");
 
     @Override
     public void start(Stage primaryStage) {
         // Set up the game canvas
-        Canvas canvas = new Canvas(800, 400);
+        Canvas canvas = new Canvas(1000, 700);
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
+
 
         Pane root = new Pane();
         root.getChildren().add(canvas);
-        Scene scene = new Scene(root);
 
+
+
+        Scene scene = new Scene(root);
         scene.setOnKeyPressed(this::handleKeyPress);
 
         primaryStage.setTitle("Goku Game");

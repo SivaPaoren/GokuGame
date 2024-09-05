@@ -1,8 +1,15 @@
 package com.gokugame.gokugame;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
 public class GameView {
     private Image gokuImage = new Image("file:src/main/resources/goku.png");
@@ -25,15 +32,40 @@ public class GameView {
             gc.drawImage(powerUpImage, logic.getPowerUp().getX(), logic.getPowerUp().getY(), 50, 50);
         }
 
-        // Draw score
-        gc.setFill(Color.BLACK);
-        gc.fillText("Score: " + logic.getScore(), 700, 50);
+        //score board is create here
+        drawScoreboard(gc, logic);
+
 
         // Draw "Game Over" if the game ends
         if (logic.isGameOver()) {
             gc.setFill(Color.RED);
             gc.fillText("GAME OVER", 350, 200);
         }
+    }
+
+    //Score board is created here
+    private void drawScoreboard(GraphicsContext gc,GameLogic logic) {
+
+        // Draw background
+        gc.setFill(Color.BLACK);
+        gc.fillRect(435, 5, 140, 80);
+
+        // Draw border
+        gc.setStroke(Color.HOTPINK);
+        gc.setLineWidth(5);
+        gc.strokeRect(435, 5, 140, 80);
+
+        // Draw title
+        gc.setFill(Color.WHITE);
+        gc.setFont(javafx.scene.text.Font.font("Arial", 20));
+        gc.fillText("Score", 480, 34);
+
+        // Draw scores
+        gc.setFill(Color.WHITE);
+        gc.setFont(javafx.scene.text.Font.font("Arial", 20));
+        gc.fillText(String.valueOf(logic.getScore()), 500, 60);
+
+
     }
 }
 
