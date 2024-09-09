@@ -8,18 +8,21 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.media.AudioClip;
-
-
 
 public class GokuGame extends Application {
 
     private GameLogic logic = new GameLogic();
     private GameView view = new GameView();
-    private final AudioClip jumpSound = new AudioClip("file:src/main/resources/jump.mp3");
-    private final AudioClip backgroundMusic = new AudioClip("file:src/main/resources/background.mp3");
+    private final AudioClip jumpSound;
+    private final AudioClip backgroundMusic;
+
+    public GokuGame() {
+        // Load the audio clips
+        jumpSound = new AudioClip(getClass().getResource("/jump.mp3").toExternalForm());
+        backgroundMusic = new AudioClip(getClass().getResource("/background.mp3").toExternalForm());
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -27,12 +30,8 @@ public class GokuGame extends Application {
         Canvas canvas = new Canvas(1000, 700);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-
-
         Pane root = new Pane();
         root.getChildren().add(canvas);
-
-
 
         Scene scene = new Scene(root);
         scene.setOnKeyPressed(this::handleKeyPress);
@@ -70,7 +69,6 @@ public class GokuGame extends Application {
             case R:  // Press 'R' to reset the game after game over
                 if (logic.isGameOver()) {
                     logic.resetGame();
-                    start(new Stage());
                 }
                 break;
             default:
@@ -82,4 +80,3 @@ public class GokuGame extends Application {
         launch(args);
     }
 }
-
