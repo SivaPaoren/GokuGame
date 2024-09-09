@@ -6,7 +6,7 @@ public class GameObject {
 
     public GameObject(double x, double y) {
         this.x = x;
-        this.y = y;
+        this.y = y;  // The Y position will be initialized when the object is created (e.g., obstacles).
         this.speed = 5;
     }
 
@@ -19,14 +19,10 @@ public class GameObject {
     }
 
     public void resetPosition() {
-        x = 800;
+        x = 1000;
+        // The Y position can also be reset if necessary in specific obstacles or power-ups.
     }
 
     public double getX() { return x; }
     public double getY() { return y; }
 }
-
-
-
-
-

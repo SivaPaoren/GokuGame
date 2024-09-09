@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameLogic {
-    private double gokuY = 300;
+    private double gokuY = 500;  // Changed from 300 to 500
     private double velocityY = 0;
     private boolean jumping = false;
-    private final double GRAVITY = 0.5;
+    private final double GRAVITY = 0.6;
     private int score = 0;
     private boolean gameOver = false;
     private List<Obstacle> obstacles = new ArrayList<>();
@@ -25,8 +25,8 @@ public class GameLogic {
         if (jumping) {
             velocityY -= GRAVITY;
             gokuY -= velocityY;
-            if (gokuY >= 300) {
-                gokuY = 300;
+            if (gokuY >= 500) {  // Changed from 300 to 500
+                gokuY = 500;     // Changed from 300 to 500
                 jumping = false;
                 velocityY = 0;
             }
@@ -68,13 +68,13 @@ public class GameLogic {
 
     public boolean checkCollision(GameObject obj) {
         // Simple bounding box collision detection
-        return obj.getX() < 150 && obj.getX() + 50 > 100 && gokuY + 50 > 300;
+        return obj.getX() < 150 && obj.getX() + 50 > 100 && gokuY + 50 > 500;  // Adjusted collision detection
     }
 
     public void jump() {
         if (!jumping) {
             jumping = true;
-            velocityY = 10;
+            velocityY = 12;
         }
     }
 
@@ -98,4 +98,3 @@ public class GameLogic {
     public int getScore() { return score; }
     public boolean isPowerUpActive() { return powerUpActive; }
 }
-
