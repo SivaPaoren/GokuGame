@@ -1,47 +1,46 @@
 package com.gokugame.gokugame;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import java.io.File;
 
 public class GameView {
 
-    private Image gokuImage = new Image("file:src/main/resources/goku.png");
+    private CharacterAnimation gokuAnimation;  // Use the new reusable animation class
     private Image obstacleImage = new Image("file:src/main/resources/obstacle.png");
-    private Image powerUpImage = new Image("file:src/main/powerup.png");
-    private Image backgroundImage = new Image("file:src/main/background.png");
-
-    private MediaPlayer mediaPlayer;
+    private Image powerUpImage = new Image("file:src/main/resources/powerup.png");
+    private Image backgroundImage = new Image("file:src/main/resources/background.png");
 
     public GameView() {
+        // Pass the file paths of the Goku running and jumping images
 
-        String musicFile = "src/main/resources/background.mp3";
-        Media backgroundMusic = new Media(new File(musicFile).toURI().toString());
-        mediaPlayer = new MediaPlayer(backgroundMusic);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+        //here we can later add different character like vegeta and other players
+        String[] gokuRunImages = {
+                "src/main/resources/goku_run1.png",
+                "src/main/resources/goku_run2.png",
+                "src/main/resources/goku_run3.png"
+        };
+        String gokuJumpImage = "src/main/resources/goku_jump.jpeg";
+
+        gokuAnimation = new CharacterAnimation(gokuRunImages, gokuJumpImage);  // Initialize the animation
     }
 
     public void render(GraphicsContext gc, GameLogic logic) {
         gc.clearRect(0, 0, 1000, 700);  // Clear screen
 
-        // Draw Goku
-        gc.drawImage(gokuImage, 100, logic.getGokuY(), 50, 50);  // No need to hardcode, logic.getGokuY() now returns 500
+        // Draw background
+        gc.drawImage(backgroundImage, 0, 0, 1000, 700);
+
+        // Draw Goku using CharacterAnimation
+        gokuAnimation.render(gc, 100, logic.getGokuY(), logic.isJumping());
 
         // Draw obstacles
         for (Obstacle obstacle : logic.getObstacles()) {
-            gc.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), 50, 50);  // obstacle.getY() now returns 500
+            gc.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), 50, 50);
         }
 
-        // Draw power-up if active
+        // Draw power-up
         if (logic.getPowerUp() != null) {
             gc.drawImage(powerUpImage, logic.getPowerUp().getX(), logic.getPowerUp().getY(), 50, 50);
         }
@@ -49,15 +48,14 @@ public class GameView {
         // Draw scoreboard
         drawScoreboard(gc, logic);
 
-        // Draw "Game Over" if the game ends
+        // Draw "Game Over" message if the game is over
         if (logic.isGameOver()) {
             gc.setFill(Color.RED);
+            gc.setFont(Font.font("Arial", 50));
             gc.fillText("GAME OVER", 350, 200);
-            mediaPlayer.stop(); // Stop the music when the game is over
         }
     }
 
-    // Scoreboard is created here
     private void drawScoreboard(GraphicsContext gc, GameLogic logic) {
         // Draw background
         gc.setFill(Color.BLACK);
