@@ -10,7 +10,7 @@ public class GameView {
     private CharacterAnimation gokuAnimation;  // Use the new reusable animation class
     private Image obstacleImage = new Image("file:src/main/resources/obstacle.png");
     private Image powerUpImage = new Image("file:src/main/resources/powerup.png");
-    private Image backgroundImage = new Image("file:src/main/resources/background.png");
+    private Image backgroundImage = new Image("file:src/main/resources/background.jpg");
 
     public GameView() {
         // Pass the file paths of the Goku running and jumping images
