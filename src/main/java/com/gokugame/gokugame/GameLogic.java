@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameLogic {
-    private double gokuY = 500;  // Changed from 300 to 500
+    private double gokuY = 480;  // Changed from 300 to 500
     private double velocityY = 0;
     private boolean jumping = false;
     private boolean running = true;
     private final double GRAVITY = 0.6;
     private int score = 0;
     private boolean gameOver = false;
-    private List<Obstacle> obstacles = new ArrayList<>();
+    private final List<Obstacle> obstacles = new ArrayList<>();
+    private final Enemy enemy = new Enemy(900);
     private PowerUp powerUp;
     private double gameSpeed = 5;
     private boolean powerUpActive = false;
@@ -27,8 +28,8 @@ public class GameLogic {
             running = false;
             velocityY -= GRAVITY;
             gokuY -= velocityY;
-            if (gokuY >= 500) {  // Changed from 300 to 500
-                gokuY = 500;     // Changed from 300 to 500
+            if (gokuY >= 480) {  // Changed from 300 to 500
+                gokuY = 480;     // Changed from 300 to 500
                 jumping = false;
                 running = true;
                 velocityY = 0;
@@ -102,4 +103,5 @@ public class GameLogic {
     public boolean isGameOver() { return gameOver; }
     public int getScore() { return score; }
     public boolean isPowerUpActive() { return powerUpActive; }
+    public Enemy getEnemy(){return  enemy;}
 }

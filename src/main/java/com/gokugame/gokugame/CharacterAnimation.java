@@ -22,7 +22,7 @@ public class CharacterAnimation {
 
     public void render(GraphicsContext gc, double characterX, double characterY, boolean isJumping) {
         if (isJumping) {
-            gc.drawImage(jumpFrame, characterX, characterY, 50, 50);  // Show jump frame when jumping
+            gc.drawImage(jumpFrame, characterX, characterY, 50, 70);  // Show jump frame when jumping
         } else {
             drawRunning(gc, characterX, characterY);  // Show running frames when not jumping
         }
@@ -34,6 +34,6 @@ public class CharacterAnimation {
         if (frameCount % 10 == 0) {  // Change frame every 10 game loops
             frameIndex = (frameIndex + 1) % runFrames.length;
         }
-        gc.drawImage(runFrames[frameIndex], characterX, characterY, 50, 50);  // Draw the current running frame
+        gc.drawImage(runFrames[frameIndex], characterX, characterY, 50, 70);  // Draw the current running frame
     }
 }

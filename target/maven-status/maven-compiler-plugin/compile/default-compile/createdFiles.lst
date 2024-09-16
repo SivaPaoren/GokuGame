@@ -6,5 +6,6 @@ com/gokugame/gokugame/CharacterAnimation.class
 com/gokugame/gokugame/GokuGame.class
 com/gokugame/gokugame/PowerUp.class
 com/gokugame/gokugame/GameView.class
+com/gokugame/gokugame/Enemy.class
 module-info.class
 com/gokugame/gokugame/GameObject.class

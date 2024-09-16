@@ -1,0 +1,17 @@
+add character animation of goku properly
+add powerUp function
+add background image of the game
+
+add final boss
+add final boss animation
+add final boss shooting
+
+add goku shooting power
+add music properly with its appropriate sound
+
+add the welcome page
+
+
+keep the high score in the text file somewhere
+
+

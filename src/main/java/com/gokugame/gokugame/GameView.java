@@ -11,19 +11,25 @@ public class GameView {
     private Image obstacleImage = new Image("file:src/main/resources/obstacle.png");
     private Image powerUpImage = new Image("file:src/main/resources/powerup.png");
     private Image backgroundImage = new Image("file:src/main/resources/background.png");
+    private Image enemyImage = new Image("file:src/main/resources/enemy.png");
 
     public GameView() {
         // Pass the file paths of the Goku running and jumping images
 
         //here we can later add different character like vegeta and other players
+        //goku character is created here
         String[] gokuRunImages = {
                 "src/main/resources/goku_run1.png",
                 "src/main/resources/goku_run2.png",
                 "src/main/resources/goku_run3.png"
         };
+
         String gokuJumpImage = "src/main/resources/goku_jump.jpeg";
 
+
+
         gokuAnimation = new CharacterAnimation(gokuRunImages, gokuJumpImage);  // Initialize the animation
+
     }
 
     public void render(GraphicsContext gc, GameLogic logic) {
@@ -34,6 +40,10 @@ public class GameView {
 
         // Draw Goku using CharacterAnimation
         gokuAnimation.render(gc, 100, logic.getGokuY(), logic.isJumping());
+
+        //Draw enemy using
+        gc.drawImage(enemyImage,logic.getEnemy().getX(),logic.getEnemy().getY(),40,90);
+
 
         // Draw obstacles
         for (Obstacle obstacle : logic.getObstacles()) {

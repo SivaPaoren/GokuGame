@@ -4,10 +4,10 @@ public class GameObject {
     protected double x, y;
     protected double speed;
 
-    public GameObject(double x, double y) {
+    public GameObject(double x, double y, double speed) {
         this.x = x;
         this.y = y;  // The Y position will be initialized when the object is created (e.g., obstacles).
-        this.speed = 5;
+        this.speed = speed;
     }
 
     public void move(double gameSpeed) {
