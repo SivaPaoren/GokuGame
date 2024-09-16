@@ -16,7 +16,10 @@ public class GameLogic {
     private PowerUp powerUp;
     private double gameSpeed = 5;
     private boolean powerUpActive = false;
+    private int maxHealth = 100;
 
+    //this one is hard coded for now to test we need to make it dynamic for later
+    private int currentHealth = 60;
     public GameLogic() {
         // Initialize obstacles and power-up
         resetGame();
@@ -28,8 +31,8 @@ public class GameLogic {
             running = false;
             velocityY -= GRAVITY;
             gokuY -= velocityY;
-            if (gokuY >= 480) {  // Changed from 300 to 500
-                gokuY = 480;     // Changed from 300 to 500
+            if (gokuY >= 480) {  // Changed from 500 to 480
+                gokuY = 480;     // Changed from 500 to 480
                 jumping = false;
                 running = true;
                 velocityY = 0;
@@ -104,4 +107,6 @@ public class GameLogic {
     public int getScore() { return score; }
     public boolean isPowerUpActive() { return powerUpActive; }
     public Enemy getEnemy(){return  enemy;}
+    public int getMaxHealth() { return maxHealth; }
+    public int getCurrentHealth() { return currentHealth; }
 }

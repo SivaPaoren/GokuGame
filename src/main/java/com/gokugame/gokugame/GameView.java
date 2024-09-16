@@ -45,6 +45,9 @@ public class GameView {
         gc.drawImage(enemyImage,logic.getEnemy().getX(),logic.getEnemy().getY(),40,90);
 
 
+        //draw character health bar
+        drawCharacterHealth(gc, logic);
+
         // Draw obstacles
         for (Obstacle obstacle : logic.getObstacles()) {
             gc.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), 50, 50);
@@ -86,4 +89,39 @@ public class GameView {
         gc.setFont(Font.font("Arial", 20));
         gc.fillText(String.valueOf(logic.getScore()), 500, 60);
     }
+
+    private void drawCharacterHealth(GraphicsContext gc, GameLogic logic) {
+        // Assuming logic has methods to get character health and max health
+        double currentHealth = logic.getCurrentHealth();
+        double maxHealth = logic.getMaxHealth();
+
+        // Calculate health bar width based on the current health
+        double healthBarWidth = 200; // Width of the full health bar
+        double healthPercentage = currentHealth / maxHealth;
+        double currentHealthBarWidth = healthBarWidth * healthPercentage;
+
+        // Draw character image
+        Image characterImage = new Image("file:src/main/resources/characterface.jpg"); // Update with actual image path
+        gc.drawImage(characterImage, 0, 0, 100, 100); // (x, y, width, height)
+
+        // Draw the background of the health bar (gray)
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 110, healthBarWidth, 20); // (x, y, width, height)
+
+        // Draw the current health bar (green)
+        if(healthPercentage >= 0.5 && healthPercentage <= 0.7) {
+            gc.setFill(Color.YELLOW);
+        }else if(healthPercentage < 0.5){
+           gc.setFill(Color.RED);
+        }else{
+            gc.setFill(Color.LIGHTGREEN);
+        }
+        gc.fillRect(0, 110, currentHealthBarWidth, 20); // Draw proportional to current health
+
+        // Optionally, draw the health value as text on top of the health bar
+        gc.setFill(Color.WHITE);
+        gc.setFont(new Font(16));
+        gc.fillText("HP: " + (int)currentHealth + " / " + (int)maxHealth, 50, 150);
+    }
+
 }
