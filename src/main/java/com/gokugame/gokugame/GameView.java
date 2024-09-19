@@ -45,8 +45,13 @@ public class GameView {
         gc.drawImage(enemyImage,logic.getEnemy().getX(),logic.getEnemy().getY(),40,90);
 
 
-        //draw character health bar
-        drawCharacterHealth(gc, logic);
+        // For the left-most side
+        drawCharacterHealth(gc, logic, 10, 10, false);
+
+        // For the right-most side
+        double canvasWidth = gc.getCanvas().getWidth();
+        drawCharacterHealth(gc, logic, canvasWidth - 210, 10, true);
+
 
         // Draw obstacles
         for (Obstacle obstacle : logic.getObstacles()) {
@@ -90,10 +95,13 @@ public class GameView {
         gc.fillText(String.valueOf(logic.getScore()), 500, 60);
     }
 
-    private void drawCharacterHealth(GraphicsContext gc, GameLogic logic) {
+    private void drawCharacterHealth(GraphicsContext gc, GameLogic logic, double x, double y, boolean isRightSide) {
         // Assuming logic has methods to get character health and max health
         double currentHealth = logic.getCurrentHealth();
         double maxHealth = logic.getMaxHealth();
+
+        //width of the window
+        double canvasWidth = gc.getCanvas().getWidth();
 
         // Calculate health bar width based on the current health
         double healthBarWidth = 200; // Width of the full health bar
@@ -101,27 +109,48 @@ public class GameView {
         double currentHealthBarWidth = healthBarWidth * healthPercentage;
 
         // Draw character image
-        Image characterImage = new Image("file:src/main/resources/characterface.jpg"); // Update with actual image path
-        gc.drawImage(characterImage, 0, 0, 100, 100); // (x, y, width, height)
-
-        // Draw the background of the health bar (gray)
-        gc.setFill(Color.BLACK);
-        gc.fillRect(0, 110, healthBarWidth, 20); // (x, y, width, height)
-
-        // Draw the current health bar (green)
-        if(healthPercentage >= 0.5 && healthPercentage <= 0.7) {
-            gc.setFill(Color.YELLOW);
-        }else if(healthPercentage < 0.5){
-           gc.setFill(Color.RED);
+        Image characterImage = new Image("file:src/main/resources/characterface.jpg");
+        // Update with actual image path
+        if(isRightSide){
+            gc.drawImage(characterImage, canvasWidth - 110, y, 100, 100);
         }else{
+            gc.drawImage(characterImage, x, y, 100, 100);
+        }
+
+        // Health bar y position, adjust as needed
+        double healthBarY = y + 100; // Align health bar just below the character image
+
+        // Draw the background of the health bar (black)
+        gc.setFill(Color.BLACK);
+        if (isRightSide) {
+            // Draw background from the right
+            gc.fillRect(x, healthBarY, healthBarWidth, 20); // Position background on the right side
+        } else {
+            // Draw background from the left
+            gc.fillRect(x, healthBarY, healthBarWidth, 20); // Position background on the left side
+        }
+
+        // Draw the current health bar with color changes based on health percentage
+        if (healthPercentage >= 0.5 && healthPercentage <= 0.7) {
+            gc.setFill(Color.YELLOW);
+        } else if (healthPercentage < 0.5) {
+            gc.setFill(Color.RED);
+        } else {
             gc.setFill(Color.LIGHTGREEN);
         }
-        gc.fillRect(0, 110, currentHealthBarWidth, 20); // Draw proportional to current health
+        if (isRightSide) {
+            // Draw health bar from the right side
+            gc.fillRect(x + healthBarWidth - currentHealthBarWidth, healthBarY, currentHealthBarWidth, 20); // Draw reverse health bar
+        } else {
+            // Draw health bar from the left side
+            gc.fillRect(x, healthBarY, currentHealthBarWidth, 20); // Draw proportional to current health
+        }
 
-        // Optionally, draw the health value as text on top of the health bar
-        gc.setFill(Color.WHITE);
-        gc.setFont(new Font(16));
-        gc.fillText("HP: " + (int)currentHealth + " / " + (int)maxHealth, 50, 150);
+        // Optionally, you can also draw the health value text if needed
+
     }
+
+
+
 
 }
