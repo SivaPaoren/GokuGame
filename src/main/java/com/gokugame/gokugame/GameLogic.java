@@ -19,7 +19,7 @@ public class GameLogic {
     private int maxHealth = 100;
 
     //this one is hard coded for now to test we need to make it dynamic for later
-    private int currentHealth = 60;
+    private int currentHealth = 80;
     public GameLogic() {
         // Initialize obstacles and power-up
         resetGame();
