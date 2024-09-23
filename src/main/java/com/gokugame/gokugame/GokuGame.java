@@ -2,7 +2,6 @@ package com.gokugame.gokugame;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,6 +16,7 @@ public class GokuGame extends Application {
     private GameView view = new GameView();
     private final AudioClip jumpSound;
     private final AudioClip backgroundMusic;
+    long previousTime = System.nanoTime();
 
     public GokuGame() {
         // Load the audio clips
@@ -49,7 +49,7 @@ public class GokuGame extends Application {
             @Override
             public void handle(long now) {
                 if (!logic.isGameOver()) {
-                    logic.update();
+                    logic.update(getDeltaTime());  //delta time is set here
                     view.render(gc, logic);
                 } else {
                     view.render(gc, logic);
@@ -66,14 +66,21 @@ public class GokuGame extends Application {
                 logic.jump();
                 jumpSound.play();  // Play jump sound
                 break;
-            case R:  // Press 'R' to reset the game after game over
-                if (logic.isGameOver()) {
-                    logic.resetGame();
+            case P:  // Press 'P' to activate the power up  the after the power is full
+                if (!logic.isGameOver()) {
+                    logic.activatePowerUp();
                 }
                 break;
             default:
                 break;
         }
+    }
+    private double getDeltaTime(){
+        long currentTime = System.nanoTime();
+        double deltaTime = (currentTime - previousTime) / 1000000000.0; // Convert to seconds
+        System.out.println("DeltaTime: " + deltaTime);
+        previousTime = currentTime;
+        return deltaTime;
     }
 
     public static void main(String[] args) {
