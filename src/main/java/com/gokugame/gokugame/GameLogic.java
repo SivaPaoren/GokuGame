@@ -3,6 +3,8 @@ package com.gokugame.gokugame;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gokugame.gokugame.GokuGame.playJumpSound;
+
 public class GameLogic {
     private double gameSpeed = 0;
     private final Goku goku = new Goku(100, gameSpeed,40, 70);
@@ -12,16 +14,17 @@ public class GameLogic {
     private boolean running = true;
     private final double GRAVITY = 0.6;
     private int score = 0;
-
+    private final List<Projectile> projectiles = new ArrayList<>();
     private boolean gameOver = false;
     private final List<Obstacle> obstacles = new ArrayList<>();
     private final Enemy enemy = new Enemy(900);
     private PowerUp powerUp = new PowerUp(100,gameSpeed,40,70);;
     private boolean isPowerFull = false;
     private int maxHealth = 100;
+    private boolean isEnemyVisible = false;
 
     //this one is hard coded for now to test we need to make it dynamic for later
-    private int currentHealth = 80;
+    private int currentHealth = 100;
     private boolean powerUpFlying = false; // Flag to indicate if Goku is flying due to power-up
     private double powerUpDuration = 5; // Duration of the power-up flying state in seconds
     private double powerUpTimer; // Timer for the power-up flying state
@@ -64,6 +67,13 @@ public class GameLogic {
             }
         }
 
+        //enemy shooting
+        if(Math.random() < 0.01) {
+            // Adjust probability as needed
+                shootEnemy();
+
+        }
+
         // Power-up flying logic
         if (powerUpFlying) {
             powerUpTimer += deltaTime;
@@ -87,9 +97,30 @@ public class GameLogic {
             }
         }
 
+        //Update projectiles
+        for (int i = 0; i < projectiles.size(); i++) {
+            Projectile projectile = projectiles.get(i);
+            projectile.move(projectile.getSpeed());
+
+            // Check for collisions with Goku or obstacles
+            if (checkCollisionWithGoku(projectile) || projectile.isOutOfScreen()) {
+                if (checkCollisionWithGoku(projectile)) {
+                    // Reduce health
+                    currentHealth -= 10; // Adjust damage as needed
+                    if (currentHealth <= 0) {
+                        gameOver = true;
+                    }
+                }
+                projectiles.remove(i);
+                i--; // Adjust index after removal
+            }
+        }
+
         // Increase game speed progressively
         gameSpeed += 0.0005;
     }
+
+
 
     public boolean checkCollision(GameObject obj) {
         // Simple bounding box collision detection
@@ -104,6 +135,7 @@ public class GameLogic {
 
     public void jump() {
         if (!jumping) {
+            playJumpSound();
             jumping = true;
             velocityY = 12;
         }
@@ -115,13 +147,35 @@ public class GameLogic {
         gameSpeed = 5;
         obstacles.clear();
         for (int i = 0; i < 3; i++) {
-            Obstacle obstacle = new Obstacle(800 + i * 350,gameSpeed, 50, 50);
+            Obstacle obstacle = new Obstacle(800 + i * 400,gameSpeed, 50, 50);
             obstacles.add(obstacle);
         }
         isPowerFull = false;
         powerUpFlying = false;
         powerUpTimer = 0.0;
-        System.out.println("Reset game is called");
+    }
+
+    public void shootGoku() {
+        if (powerUpFlying) {
+            // Create a projectile shot by Goku
+            System.out.println("Insdie the shootgoku");
+           projectiles.add(new Projectile(powerUp.getX()+powerUp.getWidth(), powerUp.getY()+5, 5, false)); // Adjust speed as needed
+        }
+    }
+
+    public void shootEnemy() {
+        // Create a projectile shot by the enemy
+        if(isEnemyVisible) {  //Only if the enemy comes to screen then he will be able to shoot
+            projectiles.add(new Projectile(enemy.getX()-enemy.getWidth(), enemy.getY()+20, -6, true)); // Adjust speed as needed
+        }
+    }
+
+    private boolean checkCollisionWithGoku(Projectile projectile) {
+        return projectile.getX() < 150 && projectile.getX() + projectile.getWidth() > goku.getX() && gokuY + 50 > projectile.getY();
+    }
+
+    public List<Projectile> getProjectiles() {
+        return projectiles;
     }
 
     // Getters for use in View
@@ -138,8 +192,10 @@ public class GameLogic {
     public int getCurrentHealth() { return currentHealth; }
     public Goku getGoku() { return goku; }
     public boolean getPowerUpFlying() { return powerUpFlying; }
+    public boolean getIsEnemyVisible(){return isEnemyVisible;}
 
     // Setters for use in view
+    public void setEnemyVisible(boolean visibility){this.isEnemyVisible = visibility;}
     public void setIsPowerFull(boolean isPowerFull) { this.isPowerFull = isPowerFull; }
     public void activatePowerUp() {
         if(isPowerFull) {

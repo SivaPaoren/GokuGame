@@ -9,12 +9,13 @@ class Goku extends GameObject {
 
     //goku animation images are added here to pass later to Characteranimation
     String[] gokuRunImages = {
-            "src/main/resources/goku_run1.png",
-            "src/main/resources/goku_run1.png",
-            "src/main/resources/goku_run1.png"
+            "src/main/resources/animation1.png",
+            "src/main/resources/animation2.png",
+            "src/main/resources/animation3.png",
+            "src/main/resources/animation4.png",
     };
 
-    String gokuJumpImage = "src/main/resources/goku_jump.jpeg";
+    String gokuJumpImage =  "src/main/resources/animation3.png";
 
 
     //goku animation class that will render
