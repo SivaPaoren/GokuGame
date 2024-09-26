@@ -116,6 +116,13 @@ public class GameLogic {
             }
         }
 
+        if(isGameOver()){
+            String playeName = GokuGame.playerName;
+            int score = getScore();
+
+            handleGameOver(playeName, score);
+        }
+
         // Increase game speed progressively
         gameSpeed += 0.0005;
     }
@@ -147,7 +154,7 @@ public class GameLogic {
         gameSpeed = 5;
         obstacles.clear();
         for (int i = 0; i < 3; i++) {
-            Obstacle obstacle = new Obstacle(800 + i * 400,gameSpeed, 50, 50);
+            Obstacle obstacle = new Obstacle(800 + i * 300,gameSpeed, 50, 50);
             obstacles.add(obstacle);
         }
         isPowerFull = false;
@@ -161,6 +168,11 @@ public class GameLogic {
             System.out.println("Insdie the shootgoku");
            projectiles.add(new Projectile(powerUp.getX()+powerUp.getWidth(), powerUp.getY()+5, 5, false)); // Adjust speed as needed
         }
+    }
+
+    private void handleGameOver(String playerName,int score) {
+        ScoreWriter scoreWriter = new ScoreWriter();
+        scoreWriter.writeScoreToFile(playerName, score);
     }
 
     public void shootEnemy() {

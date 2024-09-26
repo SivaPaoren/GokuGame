@@ -54,7 +54,7 @@ public class GameView {
         //THis condition show final boss after the score hit certain level
         if(!logic.isGameOver()&& logic.getScore() >= 5){
             //Draw enemy using
-            gc.drawImage(enemyImage,logic.getEnemy().getX(),logic.getEnemy().getY(),40,100); // x,y,width,height
+            gc.drawImage(enemyImage,logic.getEnemy().getX(),logic.getEnemy().getY(),70,110); // x,y,width,height
 
             // Draw the health bar on the right side
             drawCharacterHealth(gc, logic, canvasWidth - 210, 10, true);

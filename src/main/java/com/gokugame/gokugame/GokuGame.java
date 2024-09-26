@@ -27,6 +27,7 @@ public class GokuGame extends Application {
     private static AudioClip jumpSound = null;
     private final AudioClip backgroundMusic;
     private long previousTime = System.nanoTime();
+    static String playerName = "";  // Store player name here
 
     public GokuGame() {
         // Load the audio clips
@@ -38,9 +39,6 @@ public class GokuGame extends Application {
     public void start(Stage primaryStage) {
         showWelcomePage(primaryStage);
     }
-
-
-
 
     private void showWelcomePage(Stage primaryStage) {
         AnchorPane root = new AnchorPane();
@@ -62,13 +60,13 @@ public class GokuGame extends Application {
     }
 
     private void setBackgroundImage(AnchorPane root) {
-        String []src = {
+        String[] src = {
                 "file:src/main/resources/background3.png",
                 "file:src/main/resources/background1.jpg",
         };
 
-        //background are generated randomly
-        Random random  = new Random();
+        // Background images are generated randomly
+        Random random = new Random();
         int randomNum = random.nextInt(src.length);
         Image backgroundImage = new Image(src[randomNum]);
         ImageView background = new ImageView(backgroundImage);
@@ -102,11 +100,10 @@ public class GokuGame extends Application {
                 "-fx-text-fill: white; -fx-font-size: 20; -fx-padding: 10 20; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         playButton.setOnAction(event -> {
-            String playerName = nameInput.getText();
+            playerName = nameInput.getText();
             if (!playerName.isEmpty()) {
                 startGame(primaryStage);
             } else {
-                // You can add a message to prompt the user to enter a name
                 System.out.println("Please enter your name!");
             }
         });
@@ -125,7 +122,7 @@ public class GokuGame extends Application {
         Scene scene = new Scene(root);
         scene.setOnKeyPressed(this::handleKeyPress);
 
-        primaryStage.setTitle("Goku Game");
+        primaryStage.setTitle("Goku Game - Player: " + playerName);
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -138,39 +135,42 @@ public class GokuGame extends Application {
             @Override
             public void handle(long now) {
                 if (!logic.isGameOver()) {
-                    logic.update(getDeltaTime());  // delta time is set here
+                    logic.update(getDeltaTime());
                     view.render(gc, logic);
                 } else {
-                    view.render(gc, logic);
-                    stop();  // Stop the game loop if game over
+                    view.render(gc, logic);  // Render Game Over screen
+                    stop();
                 }
             }
         };
         timer.start();
     }
 
-
-
-    private void handleKeyPress(KeyEvent event ) {
+    private void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
-                 // Play jump sound
-                logic.jump();
+                if (!logic.isGameOver()) {
+                    logic.jump();
+                }
                 break;
             case P:  // Press 'P' to activate the power up
                 if (!logic.isGameOver()) {
                     logic.activatePowerUp();
                 }
                 break;
-            case S: // Press 'S' to shoot
+            case S:  // Press 'S' to shoot
                 if (!logic.isGameOver()) {
                     logic.shootGoku();
                 }
                 break;
-            case R:
-//                if (logic.isGameOver()) {
-//                    startGame(primaryStage);
-//                }
+            case R:  // Press 'R' to restart the game after it's over
+                if (logic.isGameOver()) {
+                    logic.resetGame();  // Reset game logic
+                    Stage stage = (Stage) ((Scene) event.getSource()).getWindow();  // Correct way to get the Stage
+                    startGame(stage);  // Restart the game
+
+                }
+                break;
             default:
                 break;
         }
@@ -178,14 +178,13 @@ public class GokuGame extends Application {
 
     public static void playJumpSound() {
         new Thread(() -> {
-            try {; // rewind to the beginning
+            try {
                 jumpSound.play();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
     }
-
 
     private double getDeltaTime() {
         long currentTime = System.nanoTime();
